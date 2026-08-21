@@ -8,14 +8,14 @@ for item in nums:
         arr1.append(item)
     elif i == 2:
         arr2.append(item)
-    else:
+    else:#general case
         if arr1[-1] > arr2[-1]:
             arr1.append(item)
         else:
             arr2.append(item)
-    
     i += 1
 
     
 result = arr1 + arr2
+
 print(result)
