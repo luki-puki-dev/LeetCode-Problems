@@ -1,4 +1,4 @@
-num = "5023"
+num = "5023??"
 
 if "?" not in num:
     num = list(map(int,str(num)))
@@ -7,6 +7,10 @@ if "?" not in num:
         print("false")
     else:
         print("true")
+        
+elif num.count("?") % 2 != 0:
+        print("false")
+    
 
 
 
