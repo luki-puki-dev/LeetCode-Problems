@@ -1,4 +1,4 @@
-num = "?3295???"
+num = "9?"
 
 if "?" not in num:
     num = list(map(int,str(num)))
@@ -11,8 +11,8 @@ if "?" not in num:
         #return True
         
 elif num.count("?") % 2 != 0:
-        print("false")
-        #return False
+        print("true")
+        #return True
 else:
     num = list(map(str,str(num)))
     halfSize = len(num) // 2
@@ -51,7 +51,3 @@ else:
         elif (sumFirstHalf-sumSecondHalf)  < (9/2)*(questionMarksSecondHalf-questionMarksFirstHalf):
             print("true - alice wins")
             #return true
-        
-
-
-
