@@ -8,16 +8,13 @@ class Solution(object):
         num = list(str(num))
         halfSize = len(num) // 2
         
-
         questionMarksFirstHalf = num[:halfSize].count("?")
         questionMarksSecondHalf = num[halfSize:].count("?")
         
-
         sumFirstHalf = 0
         for item in num[:halfSize]:
             if item != "?":
-                sumFirstHalf += int(item)
-                
+                sumFirstHalf += int(item) 
         sumSecondHalf = 0
         for item in num[halfSize:]:
             if item != "?":
