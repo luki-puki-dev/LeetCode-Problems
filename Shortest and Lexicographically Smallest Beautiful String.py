@@ -1,40 +1,18 @@
 s = "0101111000101011001"
 k = 9
 
-if "1" not in s:
+ones = [i for i, c in enumerate(s) if c == '1']
+if len(ones) < k:
     #return ""
-    print("empty")
- 
-result = ""
-mini = 1000000
-for i in range(len(s)):
+    print("none")
     
-    substr = ""
-    for j in range(i):
-        substr += s[j]
-    
-    if substr.count("1") == k and len(substr) < mini:
-        mini = len(substr)
-        while substr[-1] != "1":
-            substr = substr[:-1]
-        while substr[0] != "1":
-            substr = substr[1:]
-        
-        result = substr
-    
-    substr2 = ""
-    for l in range(i,len(s)):
-        substr2 += s[l]
-    if substr2.count("1") == k and len(substr2) < mini:
-        mini = len(substr2)
-        while substr2[-1] != "1":
-            substr2 = substr2[:-1]
-        while substr2[0] != "1":
-            substr2 = substr2[1:]
-    
-        result = substr2
-    #print(substr2)
-    
-        
+best = None
+for i in range(len(ones) - k + 1):
+    start, end = ones[i], ones[i + k - 1]
+    candidate = s[start:end + 1]
+    if best is None or len(candidate) < len(best) or (len(candidate) == len(best) and candidate < best):
+        best = candidate
+#return best
 
-print(result)        
+print(best)
+    
