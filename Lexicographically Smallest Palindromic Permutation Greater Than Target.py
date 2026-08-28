@@ -1,5 +1,5 @@
-s = "aac"
-target = "abb"  
+s = "aaabbbb"
+target = "abaaaaa"
 #output should be aca
 
 letters = {}
@@ -14,10 +14,16 @@ if length % 2 == 0: # it's an even sized word
             letters[char] += 1
     
     #checking for  any letter with odd frequency
-    for v in letters.values():
+    nr_of_letters = 0
+    for k,v in letters.items():
+        nr_of_letters += 1
         if v % 2 != 0: 
             print("adios")
             #return ""
+    if nr_of_letters == 1:
+        if s > target:
+            print(s)
+            #return s
     
     dummy = ""
     for k,v in letters.items():
@@ -26,13 +32,14 @@ if length % 2 == 0: # it's an even sized word
             if k != k2:
                 dummy += (k2*(v2//2))
                 dummy += dummy[::-1]
-                if dummy > target:
+                if dummy > target and (len(dummy) == len(target)):
                     print(dummy)
                     #return target
         dummy = ""
     print (dummy)
     #return ""
-#=============================================================================================================================          
+
+        
 else: # it's an odd sized word
     for char in s:
         if char not in letters.keys():
@@ -43,7 +50,9 @@ else: # it's an odd sized word
     counter = 0
     middle = ""
     freq_middle = 0
+    nr_of_letters = 0
     for k,v in letters.items():
+        nr_of_letters += 1
         if v % 2 != 0:
             middle = k
             freq_middle = v
@@ -51,8 +60,11 @@ else: # it's an odd sized word
             if counter >  1: # we need only one letter with odd frequency
                 #return ""
                 print(k,v)
+    if nr_of_letters == 1:
+        if s > target:
+            print(s)
+            #return s
     
-    print("middle",middle)
     dummy = ""
     for k,v in letters.items():
         dummy += (k*(v//2))
@@ -66,10 +78,10 @@ else: # it's an odd sized word
                     dummy += (k2*(v2//2))
                     dummy += dummy[::-1]
                     print(dummy)
-                if dummy > target:
+                if dummy > target and (len(dummy) == len(target)):
                     print(dummy)
                     #return target
         dummy = ""
-    print (dummy)
+
     #return ""
 
