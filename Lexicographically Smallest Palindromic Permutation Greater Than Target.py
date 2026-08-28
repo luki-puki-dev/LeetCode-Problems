@@ -1,87 +1,82 @@
-s = "aaabbbb"
-target = "abaaaaa"
-#output should be aca
-
-letters = {}
-length = len(s)
-
-if length % 2 == 0: # it's an even sized word
-    #storing their frequency
-    for char in s: 
-        if char not in letters.keys():
-            letters[char] = 1
-        else:
-            letters[char] += 1
-    
-    #checking for  any letter with odd frequency
-    nr_of_letters = 0
-    for k,v in letters.items():
-        nr_of_letters += 1
-        if v % 2 != 0: 
-            print("adios")
-            #return ""
-    if nr_of_letters == 1:
-        if s > target:
-            print(s)
-            #return s
-    
-    dummy = ""
-    for k,v in letters.items():
-        dummy += (k*(v//2))
-        for k2,v2 in letters.items():
-            if k != k2:
-                dummy += (k2*(v2//2))
-                dummy += dummy[::-1]
-                if dummy > target and (len(dummy) == len(target)):
-                    print(dummy)
-                    #return target
-        dummy = ""
-    print (dummy)
-    #return ""
-
+class Solution(object):
+    def lexPalindromicPermutation(self, s, target):
+        """
+        :type s: str
+        :type target: str
+        :rtype: str
+        """
+        counts = {}
+        for char in s:
+            counts[char] = counts.get(char, 0) + 1
+            
+        odd_chars = []
+        for ch, freq in counts.items():
+            if freq % 2 != 0:
+                odd_chars.append(ch)
+                
+        if len(odd_chars) > 1:
+            return ""
+            
+        mid_char = odd_chars[0] if odd_chars else ""
         
-else: # it's an odd sized word
-    for char in s:
-        if char not in letters.keys():
-            letters[char] = 1
-        else:
-            letters[char] += 1
-    
-    counter = 0
-    middle = ""
-    freq_middle = 0
-    nr_of_letters = 0
-    for k,v in letters.items():
-        nr_of_letters += 1
-        if v % 2 != 0:
-            middle = k
-            freq_middle = v
-            counter += 1
-            if counter >  1: # we need only one letter with odd frequency
-                #return ""
-                print(k,v)
-    if nr_of_letters == 1:
-        if s > target:
-            print(s)
-            #return s
-    
-    dummy = ""
-    for k,v in letters.items():
-        dummy += (k*(v//2))
-        for k2,v2 in letters.items():
-            if k != k2:
-                if k2 == middle:
-                    dummy += (middle*(freq_middle))
-                    dummy += dummy.split(middle)[0]
-                    print(dummy)
-                else:
-                    dummy += (k2*(v2//2))
-                    dummy += dummy[::-1]
-                    print(dummy)
-                if dummy > target and (len(dummy) == len(target)):
-                    print(dummy)
-                    #return target
-        dummy = ""
+        half_counts = {}
+        for ch, freq in counts.items():
+            if freq // 2 > 0:
+                half_counts[ch] = freq // 2
+                
+        N = len(s)
+        half_N = N // 2
+        
 
-    #return ""
+        max_i = 0
+        curr_counts = dict(half_counts)
+        for i in range(half_N):
+            ch = target[i] if i < len(target) else ""
+            if ch in curr_counts and curr_counts[ch] > 0:
+                curr_counts[ch] -= 1
+                max_i += 1
+            else:
+                break
 
+        if max_i == half_N:
+            L = target[:half_N]
+            P = L + mid_char + L[::-1]
+            if P > target:
+                return P
+                
+
+        start_i = min(max_i, half_N - 1)
+        
+        rem_counts = dict(half_counts)
+        for i in range(start_i):
+            rem_counts[target[i]] -= 1
+            
+        for i in range(start_i, -1, -1):
+            target_char = target[i] if i < len(target) else ""
+            
+
+            valid_chars = []
+            for ch, v in rem_counts.items():
+                if v > 0 and ch > target_char:
+                    valid_chars.append(ch)
+                    
+            if valid_chars:
+
+                best_char = min(valid_chars)
+                rem_counts[best_char] -= 1
+                
+
+                rest_chars = []
+                for ch, v in rem_counts.items():
+                    if v > 0:
+                        rest_chars.extend([ch] * v)
+                rest_chars.sort()
+                
+                prefix = target[:i]
+                L = prefix + best_char + "".join(rest_chars)
+                return L + mid_char + L[::-1]
+ 
+            if i > 0:
+                rem_counts[target[i-1]] += 1
+                
+        return ""
